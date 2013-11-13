@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -895,6 +896,41 @@ public class TypeUtils {
 
         return clazz;
     }
+    
+    private static Map<Class<?>, Method[]> methodsMap = Collections
+	    .synchronizedMap(new WeakHashMap<Class<?>, Method[]>());
+
+    public static Method[] getAllMethods(Class<?> clazz) {
+	if (clazz == null || clazz.equals(Object.class)) {
+	    return new Method[0];
+	}
+	Method[] theResult = methodsMap.get(clazz);
+	if (theResult != null) {
+	    return theResult;
+	}
+	List<Method[]> methods = new ArrayList<Method[]>();
+	int length = 0;
+	while (clazz != null && clazz != Object.class) {
+	    Method[] declaredFields = clazz.getDeclaredMethods();
+	    length += declaredFields != null ? declaredFields.length : 0;
+	    methods.add(declaredFields);
+	    clazz = clazz.getSuperclass();
+	}
+	theResult = new Method[length];
+	int i = 0;
+	for (Method[] someMethods : methods) {
+	    if (someMethods != null) {
+		for (Method field : someMethods) {
+		    field.setAccessible(true);
+		}
+		System.arraycopy(someMethods, 0, theResult, i,
+			someMethods.length);
+		i += someMethods.length;
+	    }
+	}
+	methodsMap.put(clazz, theResult);
+	return theResult;
+    }
 
     public static List<FieldInfo> computeGetters(Class<?> clazz, Map<String, String> aliasMap) {
         return computeGetters(clazz, aliasMap, true);
@@ -903,7 +939,7 @@ public class TypeUtils {
     public static List<FieldInfo> computeGetters(Class<?> clazz, Map<String, String> aliasMap, boolean sorted) {
         Map<String, FieldInfo> fieldInfoMap = new LinkedHashMap<String, FieldInfo>();
 
-        for (Method method : clazz.getMethods()) {
+        for (Method method : getAllMethods(clazz)) {
             String methodName = method.getName();
 
             if (Modifier.isStatic(method.getModifiers())) {

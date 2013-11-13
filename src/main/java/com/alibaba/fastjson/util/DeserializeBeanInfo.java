@@ -159,7 +159,7 @@ public class DeserializeBeanInfo {
             throw new JSONException("default constructor not found. " + clazz);
         }
 
-        for (Method method : clazz.getMethods()) {
+        for (Method method :TypeUtils.getAllMethods(clazz)) {
             String methodName = method.getName();
             if (methodName.length() < 4) {
                 continue;
@@ -266,7 +266,7 @@ public class DeserializeBeanInfo {
             beanInfo.add(new FieldInfo(propertyName, null, field, clazz, type));
         }
 
-        for (Method method : clazz.getMethods()) {
+        for (Method method : TypeUtils.getAllMethods(clazz)) {
             String methodName = method.getName();
             if (methodName.length() < 4) {
                 continue;

@@ -9,9 +9,9 @@
 	   <version>1.0.0-SNAPSHOT</version>
 	 </parent>
 -->
-	<groupId>com.avos.avoscloud.com.alibaba</groupId>
+	<groupId>cn.leancloud.android</groupId>
 	<artifactId>fastjson</artifactId>
-	<version>1.1.38</version>
+	<version>1.1.39-leancloud</version>
 
 	<packaging>jar</packaging>
 	<name>fastjson</name>
@@ -23,7 +23,7 @@
 	<properties>
 		<junit.version>4.11</junit.version>
 
-		<gpg.skip>false</gpg.skip>
+		<gpg.skip>true</gpg.skip>
 		<javadoc.skip>false</javadoc.skip>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.5</jdk.version>
@@ -50,12 +50,12 @@
 
 	<distributionManagement>
 		<repository>
-			<id>snapshots</id>
-			<url>http://maven.mei.fm/nexus/content/repositories/releases/</url>
+			<id>releases</id>
+			<url>http://mvn.leancloud.cn/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>releases</id>
-			<url>http://maven.mei.fm/nexus/content/repositories/snapshots/</url>
+			<id>snapshots</id>
+			<url>http://mvn.leancloud.cn/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 

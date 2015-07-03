@@ -38,6 +38,7 @@ import java.util.HashSet;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.util.IOUtils;
 
 /**
  * @author wenshao<szujobs@hotmail.com>
@@ -810,7 +811,7 @@ public abstract class JSONLexerBase implements JSONLexer, Closeable {
     }
 
     public final String scanSymbolUnQuoted(final SymbolTable symbolTable) {
-        final boolean[] firstIdentifierFlags = CharTypes.firstIdentifierFlags;
+        final boolean[] firstIdentifierFlags = IOUtils.firstIdentifierFlags;
         final char first = ch;
 
         final boolean firstFlag = ch >= firstIdentifierFlags.length || firstIdentifierFlags[first];
@@ -818,7 +819,7 @@ public abstract class JSONLexerBase implements JSONLexer, Closeable {
             throw new JSONException("illegal identifier : " + ch);
         }
 
-        final boolean[] identifierFlags = CharTypes.identifierFlags;
+        final boolean[] identifierFlags = IOUtils.identifierFlags;
 
         int hash = first;
 

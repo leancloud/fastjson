@@ -11,7 +11,7 @@
 -->
 	<groupId>cn.leancloud.android</groupId>
 	<artifactId>fastjson</artifactId>
-	<version>1.1.38-leancloud</version>
+	<version>1.1.39-leancloud</version>
 
 	<packaging>jar</packaging>
 	<name>fastjson</name>
